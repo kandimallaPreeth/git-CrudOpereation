@@ -8,7 +8,6 @@ namespace CRUDOperations_WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly ContextClass _context;
@@ -16,6 +15,7 @@ namespace CRUDOperations_WebAPI.Controllers
         {
             _context = context;
         }
+        [Authorize(Roles = "Admin,User")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -33,6 +33,7 @@ namespace CRUDOperations_WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -51,6 +52,26 @@ namespace CRUDOperations_WebAPI.Controllers
             }
 
         }
+        [Authorize(Roles = "Admin,User")]
+        [HttpGet("GetPost")]
+        public IActionResult GetPost(int page = 1, int pageSize = 2)
+        {
+            try
+            {
+                if (page <= 1)
+                {
+                    page = 0;
+                }
+                int totalNumber = page * pageSize;
+                var order = _context.Orders.Skip(totalNumber).Take(pageSize).ToList();
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize(Roles = "Admin,User")]
         [HttpPost]
         public IActionResult post(Order order)
         {
@@ -65,6 +86,7 @@ namespace CRUDOperations_WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "Admin,User")]
         [HttpPut]
         public IActionResult put(Order model)
         {
@@ -98,6 +120,7 @@ namespace CRUDOperations_WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public IActionResult delete(int id)
         {
@@ -116,6 +139,12 @@ namespace CRUDOperations_WebAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+        [Authorize(Roles = "User")]
+        [HttpGet("Greeting")]
+        public IActionResult Greetings()
+        {
+            return Ok("Hello User");
         }
 
     }

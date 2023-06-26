@@ -1,0 +1,30 @@
+﻿@model CRUD_In_MVC.Models.SignUp
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1 class="bg-info" >Login</h1>
+
+@using(@Html.BeginForm())
+{
+    <table >
+        <tr>
+            <th>Enter UserName</th>
+            <td>@Html.TextBoxFor(Model=>Model.Email)</td>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </tr>
+        <tr>
+            <th>Enter Password</th>
+            <td>@Html.TextBoxFor(Model=>Model.Password)</td>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </tr>
+        <tr>
+            <th>Enter Role</th>
+            <td>@Html.TextBoxFor(Model=>Model.Role)</td>
+            <span asp-validation-for="Role" class="text-danger"></span>
+        </tr>
+        <tr>
+            <td><input type="submit" class="btn btn-outline-secondary" /></td>
+        </tr>
+    </table>
+}

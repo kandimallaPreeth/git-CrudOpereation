@@ -35,7 +35,7 @@ namespace CRUDOperations_WebAPI.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<DateTime>("DateOfAssociation")
+                    b.Property<DateTime?>("DateOfAssociation")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -58,21 +58,6 @@ namespace CRUDOperations_WebAPI.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("CRUDOperations_WebAPI.Models.Login", b =>
-                {
-                    b.Property<string>("Email")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Email");
-
-                    b.ToTable("Login");
-                });
-
             modelBuilder.Entity("CRUDOperations_WebAPI.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -85,7 +70,7 @@ namespace CRUDOperations_WebAPI.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("OrderedDateTime")
+                    b.Property<DateTime?>("OrderedDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("customerId")
@@ -130,38 +115,41 @@ namespace CRUDOperations_WebAPI.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("CRUDOperations_WebAPI.Models.Register", b =>
+            modelBuilder.Entity("CRUDOperations_WebAPI.Models.SignUp", b =>
                 {
-                    b.Property<string>("Email")
+                    b.Property<string>("FirstName")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("ComformPassword")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Email");
-
-                    b.ToTable("Register");
-                });
-
-            modelBuilder.Entity("CRUDOperations_WebAPI.Models.User", b =>
-                {
-                    b.Property<string>("UserName")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("UserName");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.ToTable("Users");
+                    b.HasKey("FirstName");
+
+                    b.ToTable("SignUp");
                 });
 
             modelBuilder.Entity("CRUDOperations_WebAPI.Models.Order", b =>

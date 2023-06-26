@@ -20,7 +20,7 @@ namespace CRUDOperations_WebAPI.Models
         [Required]
         [StringLength(20)]
         public string Address { get; set; }
-        public DateTime DateOfAssociation { get; set; }
+        public DateTime? DateOfAssociation { get; set; }
         public ICollection<Order> orders { get; } = new List<Order>();
     }
 }

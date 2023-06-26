@@ -47,7 +47,7 @@
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[6.0.16, )"
+              "version": "[6.0.18, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -75,7 +75,7 @@
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[13.0.3, )"
+              "version": "[6.0.8, )"
             },
             "StackExchange.Redis": {
               "target": "Package",

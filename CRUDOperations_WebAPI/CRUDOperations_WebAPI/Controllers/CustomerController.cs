@@ -3,13 +3,14 @@ using CRUDOperations_WebAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CRUDOperations_WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+
     public class CustomerController : ControllerBase
     {
         private readonly ContextClass _context;
@@ -17,17 +18,31 @@ namespace CRUDOperations_WebAPI.Controllers
         {
             _context = context;
         }
+        [Authorize(Roles ="Admin,User")]      
         [HttpGet]
-        public IActionResult GetALL()
+        public IActionResult GetAll()
         {
             try
             {
-                var customer = _context.Customers.ToList();
-                if (customer.Count == 0)
+                var order = _context.Customers.OrderBy(c => c.Name).ThenBy(c => c.Id).ToList();
+                if (order.Count == 0)
                 {
-                    return NotFound("Customers recodes not found");
+                    return NotFound("Customers record is notfound");
                 }
-                
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpGet("Desc")]
+        public IActionResult GetAllDesc()
+        {
+            try
+            {
+                var customer = _context.Customers.OrderByDescending(c => c.Name).ThenByDescending(c=>c.Id).ToList();
                 return Ok(customer);
             }
             catch (Exception ex)
@@ -35,6 +50,54 @@ namespace CRUDOperations_WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "Admin")]
+        [HttpPost("SearchPost")]
+        public IActionResult SearchPost(string text)
+        {
+            try
+            {
+                var customer = _context.Customers.Where(c => c.Name.ToLower().Contains(text.ToLower()));
+                return Ok(customer);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost("Email")]
+        public IActionResult GetByEmail(string text)
+        {
+            try
+            {
+                var customer = _context.Customers.Where(c => c.Email.ToLower().Contains(text.ToLower()));
+                return Ok(customer);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize(Roles = "Admin,User")]
+        [HttpGet("GetPost")]
+        public IActionResult GetPost(int page=1,int pageSize=2)
+        {
+            try
+            {
+                if(page <= 1)
+                {
+                    page = 0;
+                }
+                int totalNumber=page*pageSize;
+                var customer=_context.Customers.Skip(totalNumber).Take(pageSize).ToList();
+                return Ok(customer);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -52,6 +115,7 @@ namespace CRUDOperations_WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "Admin,User")]
         [HttpPost]
         public IActionResult Post(Customer model)
         {
@@ -66,6 +130,7 @@ namespace CRUDOperations_WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "Admin,User")]
         [HttpPut]
         public IActionResult Put(Customer model)
         {
@@ -100,6 +165,7 @@ namespace CRUDOperations_WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public IActionResult Delete(int id)
         {
@@ -118,6 +184,12 @@ namespace CRUDOperations_WebAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+        [Authorize(Roles = "User")]
+        [HttpGet("Greeting")]
+        public IActionResult Greetings()
+        {
+            return Ok("Hello User");
         }
     }
 

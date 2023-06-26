@@ -13,8 +13,7 @@ namespace CRUDOperations_WebAPI.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<SignUp> SignUp { get; set; }
         public DbSet<Login> Login { get; set; }
-  
-      
     }
 }
