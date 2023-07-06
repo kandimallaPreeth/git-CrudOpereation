@@ -9,13 +9,10 @@ namespace CRUDOperations_WebAPI.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        [StringLength(30)]
         public string ProductType { get; set; }
         [Required]
-        [StringLength(30)]
         public string ProductName { get; set; }
         [Required]
-        [StringLength(10)]
         public double Price { get; set; }
 
     }

@@ -10,7 +10,6 @@ namespace CRUDOperations_WebAPI.Models
         public int Id { get; set; }
         public DateTime? OrderedDateTime { get; set; }
         [Required]
-        [StringLength(10)]
         public double Amount { get; set; }
         public Product? product { get; set; }
 

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace CRUDOperations_WebAPI
@@ -33,23 +32,6 @@ namespace CRUDOperations_WebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                  };
             });
-
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AdminOnly", policy => policy.RequireRole(roles: "Admin"));
-            });
-
-            builder.Services.AddControllers(options =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });
-
-            builder.Services.AddAuthorization();
-
             // Add services to the container.
             builder.Services.AddDbContext<ContextClass>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("E_Commeres")));

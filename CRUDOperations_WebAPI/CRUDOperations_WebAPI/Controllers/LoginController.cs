@@ -1,6 +1,5 @@
 ﻿using CRUDOperations_WebAPI.Data;
 using CRUDOperations_WebAPI.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,7 +10,7 @@ namespace CRUDOperations_WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-  public class LoginController : Controller
+    public class LoginController : Controller
     {
         private readonly ContextClass _context;
         public LoginController(ContextClass context)
@@ -73,5 +72,6 @@ namespace CRUDOperations_WebAPI.Controllers
         {
             return Ok("Hello User");
         }
+        
     }
 }
